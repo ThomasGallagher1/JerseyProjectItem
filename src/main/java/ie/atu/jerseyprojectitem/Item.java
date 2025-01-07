@@ -1,9 +1,6 @@
 package ie.atu.jerseyprojectitem;
 
 import jakarta.persistence.*;
-import lombok.Data;
-
-import java.util.List;
 
 
 @Entity
@@ -17,6 +14,16 @@ public class Item {
     private String itemName;
     @Column(name = "clothing_id")
     private Long clothingId;
+    @Column(name = "image_url")
+    private String imageURL;
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
+    }
 
     public Long getItemId() {
         return itemId;

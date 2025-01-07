@@ -19,25 +19,14 @@ public class ItemController {
     @Autowired
     private ItemRepository itemRepository;
 
-    private final String ClothingURL = "http://localhost:8082/clothing";
+    @GetMapping("/clothing/{clothingId}")
+    public List<Item> getItemsByClothingId(@PathVariable Long clothingId) {
+        return itemRepository.findByClothingId(clothingId);
+    }
 
     @GetMapping("/{itemId}")
-    public Map<String, Object> getItemDetailsById(@PathVariable Long itemId){
-        Item item = itemRepository.findById(itemId).orElseThrow(() -> new RuntimeException("Item not found"));
-
-        Long clothingId = item.getClothingId();
-
-        RestTemplate restTemplate = new RestTemplate();
-        ResponseEntity<Map> clothingResponse = restTemplate.getForEntity(
-                ClothingURL + "/" + clothingId, Map.class);
-
-        Map<String, Object> clothing = clothingResponse.getBody();
-
-        Map<String, Object> response = new HashMap<>();
-        response.put("ItemId", item.getItemId());
-        response.put("ItemName", item.getItemName());
-        response.put("ClothingId", clothing);
-
-        return response;
-       }
+    public Item getItemById(@PathVariable Long itemId) {
+        return itemRepository.findById(itemId)
+                .orElseThrow(() -> new RuntimeException("Item not found for ID: " + itemId));
+    }
 }
